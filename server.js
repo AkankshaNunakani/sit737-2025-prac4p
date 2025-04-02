@@ -78,9 +78,51 @@ app.get("/divide", (req, res) => {
     res.send(`Result: ${result}`);
 });
 
+// Exponentiation Route
+app.get("/exponentiate", (req, res) => {
+    const base = parseFloat(req.query.base);
+    const exponent = parseFloat(req.query.exponent);
+    if (isNaN(base) || isNaN(exponent)) {
+        logger.error("Invalid numbers provided for exponentiation");
+        return res.status(400).send("Invalid numbers provided.");
+    }
+    const result = Math.pow(base, exponent);
+    logger.info(`Exponentiation Result: ${result}`);
+    res.send(`Result: ${result}`);
+});
+
+// Square Root Route
+app.get("/sqrt", (req, res) => {
+    const num = parseFloat(req.query.num);
+    if (isNaN(num)) {
+        logger.error("Invalid number provided for square root");
+        return res.status(400).send("Invalid number provided.");
+    }
+    if (num < 0) {
+        logger.error("Attempted to calculate square root of a negative number");
+        return res.status(400).send("Cannot calculate square root of a negative number.");
+    }
+    const result = Math.sqrt(num);
+    logger.info(`Square Root Result: ${result}`);
+    res.send(`Result: ${result}`);
+});
+
+// Modulo Route
+app.get("/modulo", (req, res) => {
+    const num1 = parseFloat(req.query.num1);
+    const num2 = parseFloat(req.query.num2);
+    if (isNaN(num1) || isNaN(num2)) {
+        logger.error("Invalid numbers provided for modulo operation");
+        return res.status(400).send("Invalid numbers provided.");
+    }
+    const result = num1 % num2;
+    logger.info(`Modulo Result: ${result}`);
+    res.send(`Result: ${result}`);
+});
+
 // Default Route
 app.get("/", (req, res) => {
-    res.send("Welcome to the Arithmetic Server! Use /add, /subtract, /multiply, or /divide.");
+    res.send("Welcome to the Arithmetic Server! Use /add, /subtract, /multiply, /divide, /exponentiate, /sqrt, or /modulo.");
 });
 
 // Start Server
